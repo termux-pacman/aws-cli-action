@@ -14,11 +14,13 @@ get_name() {
 }
 
 get-object() {
-	aws s3api get-object --bucket $bucket --key $1 $2 >/dev/null 2>&1
+	aws s3api get-object --bucket $bucket --key $1 $2
+	echo ""
 }
 
 put-object() {
-	aws s3api put-object --bucket $bucket --key $1 --body $2 >/dev/null 2>&1
+	aws s3api put-object --bucket $bucket --key $1 --body $2
+	echo ""
 }
 
 aws-ls() {
@@ -26,11 +28,13 @@ aws-ls() {
 }
 
 aws-mv() {
-	aws s3 mv s3://$bucket/$1 s3://$bucket/$2 >/dev/null 2>&1
+	aws s3 mv s3://$bucket/$1 s3://$bucket/$2
+	echo ""
 }
 
 aws-rm() {
-	aws s3 rm s3://$bucket/$(echo $1 | sed 's/+/0/g') >/dev/null 2>&1
+	aws s3 rm s3://$bucket/$(echo $1 | sed 's/+/0/g')
+	echo ""
 }
 
 del-pkg() {
