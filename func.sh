@@ -10,7 +10,7 @@ get_name() {
 			name+="-${file_sp[k]}"
 		fi
 	done
-	echo $name
+	echo $name | sed 's/+/0/g'
 }
 
 get-object() {
@@ -37,11 +37,19 @@ aws-rm() {
 	echo ""
 }
 
-del-pkg() {
-	for j in $(aws-ls ${{ matrix.target_arch }}/ $1); do
-		if [[ $1 = $(echo $(get_name $j) | sed 's/+/0/g') ]]; then
+del-old-pkg() {
+	name_pkg=$(get_name $1)
+	for j in $(aws-ls ${{ matrix.target_arch }}/ $name_pkg); do
+		if [[ $1 != $j &&  $name_pkg = $(get_name $j) ]]; then
 			aws-rm ${{ matrix.target_arch }}/$j
-			break
+		fi
+	done
+}
+
+del-all-pkg() {
+	for j in $(aws-ls ${{ matrix.target_arch }}/ $1); do
+		if [[ $1 = $(get_name $j) ]]; then
+			aws-rm ${{ matrix.target_arch }}/$j
 		fi
 	done
 }
