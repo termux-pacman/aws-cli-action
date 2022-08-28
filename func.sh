@@ -39,17 +39,17 @@ aws-rm() {
 
 del-old-pkg() {
 	name_pkg=$(get_name $1)
-	for j in $(aws-ls $arch/ $name_pkg); do
+	for j in $(aws-ls $repo/$arch/ $name_pkg); do
 		if [[ $1 != $j &&  $name_pkg = $(get_name $j) ]]; then
-			aws-rm $arch/$j
+			aws-rm $repo/$arch/$j
 		fi
 	done
 }
 
 del-all-pkg() {
-	for j in $(aws-ls $arch/ $1); do
+	for j in $(aws-ls $repo/$arch/ $1); do
 		if [[ $1 = $(get_name $j) ]]; then
-			aws-rm $arch/$j
+			aws-rm $repo/$arch/$j
 		fi
 	done
 }
