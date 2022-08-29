@@ -23,10 +23,6 @@ put-object() {
 	echo ""
 }
 
-aws-ls() {
-	aws s3 ls s3://$bucket/$1 | grep "$2" | awk '{print $4}'
-}
-
 aws-mv() {
 	aws s3 mv s3://$bucket/$1 s3://$bucket/$2
 	echo ""
@@ -39,17 +35,17 @@ aws-rm() {
 
 del-old-pkg() {
 	name_pkg=$(get_name $1)
-	for j in $(aws-ls $repo/$arch/ $name_pkg); do
-		if [[ $1 != $j &&  $name_pkg = $(get_name $j) ]]; then
-			aws-rm $repo/$arch/$j
+	for j in $(echo "$files" | grep $name_pkg); do
+		if [[ $1 != ${j##*/} &&  $name_pkg = $(get_name ${j##*/}) ]]; then
+			aws-rm $j
 		fi
 	done
 }
 
 del-all-pkg() {
-	for j in $(aws-ls $repo/$arch/ $1); do
-		if [[ $1 = $(get_name $j) ]]; then
-			aws-rm $repo/$arch/$j
+	for j in $(echo "$files" | grep $1); do
+		if [[ $1 = $(get_name ${j##*/}) ]]; then
+			aws-rm $j
 		fi
 	done
 }
