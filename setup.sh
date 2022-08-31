@@ -12,7 +12,7 @@ if [[ -z $1 || -z $2 || -z $3 ]]; then
 fi
 
 info "Install aws cli"
-sudo apt-get install awscli
+python -m pip install awscli
 
 info "Set aws cli"
 if [ ! -d ~/.aws ]; then
