@@ -29,7 +29,7 @@ aws-mv() {
 }
 
 aws-rm() {
-	aws s3 rm s3://$bucket/$(echo $1 | sed 's/+/0/g')
+	aws s3 rm s3://$bucket/$1
 	echo ""
 }
 
