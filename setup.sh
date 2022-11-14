@@ -12,7 +12,10 @@ if [[ -z $1 || -z $2 || -z $3 ]]; then
 fi
 
 info "Install aws cli"
-python -m pip install awscli
+while true; do
+	python -m pip install awscli || continue
+	break
+done
 
 info "Set aws cli"
 if [ ! -d ~/.aws ]; then
