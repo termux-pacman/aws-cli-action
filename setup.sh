@@ -13,8 +13,12 @@ fi
 
 info "Install aws cli"
 while true; do
-	python -m pip install awscli || continue
-	break
+	{
+		python -m pip install awscli
+		break
+	} || {
+		python -m pip install --upgrade pip
+	}
 done
 
 info "Set aws cli"
