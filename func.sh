@@ -23,11 +23,6 @@ put-object() {
 	echo ""
 }
 
-aws-mv() {
-	aws s3 mv s3://$bucket/$1 s3://$bucket/$2
-	echo ""
-}
-
 aws-rm() {
 	aws s3 rm s3://$bucket/$1
 	echo ""
@@ -36,7 +31,7 @@ aws-rm() {
 del-old-pkg() {
 	name_pkg=$(get_name $1)
 	for j in $(echo "$files" | grep $name_pkg); do
-		if [[ $1 != ${j##*/} &&  $name_pkg = $(get_name ${j##*/}) ]]; then
+		if [[ $1 != $(echo ${j##*/} | sed 's/+/0/g') && $name_pkg = $(get_name ${j##*/}) ]]; then
 			aws-rm $j
 		fi
 	done
