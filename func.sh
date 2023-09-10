@@ -3,11 +3,11 @@
 get_name() {
 	local name=""
 	local file_sp=(${1//-/ })
-	for k in $(seq 0 $((${#file_sp[*]}-4))); do
+	for _index_f_get_name in $(seq 0 $((${#file_sp[*]}-4))); do
 		if [ -z $name ]; then
-			name="${file_sp[k]}"
+			name="${file_sp[_index_f_get_name]}"
 		else
-			name+="-${file_sp[k]}"
+			name+="-${file_sp[_index_f_get_name]}"
 		fi
 	done
 	echo $name | sed 's/+/0/g'
@@ -30,17 +30,17 @@ aws-rm() {
 
 del-old-pkg() {
 	name_pkg=$(get_name $1)
-	for j in $(echo "$files" | grep $name_pkg); do
-		if [[ $1 != $(echo ${j##*/} | sed 's/+/0/g') && $name_pkg = $(get_name ${j##*/}) ]]; then
-			aws-rm $j
+	for _pkg_f_del_old_pkg in $(echo "$files" | grep $name_pkg); do
+		if [[ $1 != $(echo ${_pkg_f_del_old_pkg##*/} | sed 's/+/0/g') && $name_pkg = $(get_name ${_pkg_f_del_old_pkg##*/}) ]]; then
+			aws-rm $_pkg_f_del_old_pkg
 		fi
 	done
 }
 
 del-all-pkg() {
-	for j in $(echo "$files" | grep $1); do
-		if [[ $1 = $(get_name ${j##*/}) ]]; then
-			aws-rm $j
+	for _pkg_f_del_all_pkg in $(echo "$files" | grep $1); do
+		if [[ $1 = $(get_name ${_pkg_f_del_all_pkg##*/}) ]]; then
+			aws-rm $_pkg_f_del_all_pkg
 		fi
 	done
 }
