@@ -29,7 +29,7 @@ aws-rm() {
 }
 
 del-old-pkg() {
-	name_pkg=$(get_name $1)
+	local name_pkg=$(get_name $1)
 	for _pkg_f_del_old_pkg in $(echo "$files" | grep $name_pkg); do
 		if [[ $1 != $(echo ${_pkg_f_del_old_pkg##*/} | sed 's/+/0/g') && $name_pkg = $(get_name ${_pkg_f_del_old_pkg##*/}) ]]; then
 			aws-rm $_pkg_f_del_old_pkg
