@@ -27,20 +27,3 @@ aws-rm() {
 	aws s3 rm s3://$bucket/$1
 	echo ""
 }
-
-del-old-pkg() {
-	local name_pkg=$(get_name $1)
-	for _pkg_f_del_old_pkg in $(echo "$files" | grep $name_pkg); do
-		if [[ $1 != $(echo ${_pkg_f_del_old_pkg##*/} | sed 's/+/0/g') && $name_pkg = $(get_name ${_pkg_f_del_old_pkg##*/}) ]]; then
-			aws-rm $_pkg_f_del_old_pkg
-		fi
-	done
-}
-
-del-all-pkg() {
-	for _pkg_f_del_all_pkg in $(echo "$files" | grep $1); do
-		if [[ $1 = $(get_name ${_pkg_f_del_all_pkg##*/}) ]]; then
-			aws-rm $_pkg_f_del_all_pkg
-		fi
-	done
-}
